@@ -251,5 +251,26 @@ def _interactive():
         else:
             print(f"  {C.DIM}listen | sessions | interact <sid> | history <sid> | rename <sid> <name> | kill | stop{C.RESET}")
 
-def cli_main(args): _interactive()
+def cli_main(args):
+    if args and ("--help" in args or "-h" in args):
+        print(f"""
+  {C.RED}{C.BOLD}SOVEREIGN — C2 Manager{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire sovereign  interactive C2 session manager
+
+  {C.DIM}Commands (inside sovereign):{C.RESET}
+    listen <port>         start TCP listener on port
+    sessions              list active sessions
+    interact <sid>        drop into live shell session
+    history <sid>         show command history for session
+    rename <sid> <name>   rename a session
+    kill <sid>            terminate a session
+    stop                  stop the listener
+    exit                  quit sovereign
+
+  {C.DIM}Session logs saved to:{C.RESET} ~/.grimoire/sessions/<sid>.log
+""")
+        return
+    _interactive()
+
 def launch(): _interactive()

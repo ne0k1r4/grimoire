@@ -263,5 +263,27 @@ def _interactive():
         else:
             print(f"  {C.DIM}Commands: hide | reveal | wav-hide | wav-reveal | zwc-hide | zwc-reveal | exit{C.RESET}")
 
-def cli_main(args): _interactive()
+def cli_main(args):
+    if args and ("--help" in args or "-h" in args):
+        print(f"""
+  {C.RED}{C.BOLD}VOXCRYPT — Steganography Engine{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire voxcrypt   interactive stego + cipher tool
+
+  {C.DIM}Commands (inside voxcrypt):{C.RESET}
+    hide                  LSB encode payload into PNG/BMP image
+    reveal                LSB decode payload from image
+    wav-hide              LSB encode payload into WAV audio
+    wav-reveal            LSB decode payload from WAV audio
+    zwc-hide              zero-width character injection into text
+    zwc-reveal            extract ZWC payload from text
+    encrypt               XOR-SHA256 stream cipher (AES-grade)
+    decrypt               decrypt XOR-SHA256 ciphertext
+    exit                  quit voxcrypt
+
+  {C.DIM}All ciphertext includes HMAC-SHA256 integrity verification.{C.RESET}
+""")
+        return
+    _interactive()
+
 def launch(): _interactive()

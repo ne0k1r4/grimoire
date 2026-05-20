@@ -318,5 +318,21 @@ def _interactive():
             print(f"  {C.DIM}Commands: list | gen | encode | obfuscate | listener | exit{C.RESET}")
 
 
-def cli_main(args): _interactive()
+def cli_main(args):
+    if args and ("--help" in args or "-h" in args):
+        print(f"""
+  {C.RED}{C.BOLD}FORGE — Payload Generator{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire forge      interactive payload generator
+
+  {C.DIM}Features:{C.RESET}
+    15 reverse shell templates (bash, python, php, powershell, java...)
+    5 encoders: base64, hex, url, unicode, base64_exec
+    3 obfuscators: bash_var, ps_char, b64_exec
+    Listener command generator
+    Save payloads to ~/.grimoire/payloads/
+""")
+        return
+    _interactive()
+
 def launch(): _interactive()

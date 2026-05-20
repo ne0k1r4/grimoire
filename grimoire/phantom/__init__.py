@@ -244,5 +244,26 @@ def _interactive():
         else:
             print(f"  {C.DIM}Commands: list | add | show <id> | update <id> | map | gen | remove <id> | exit{C.RESET}")
 
-def cli_main(args): _interactive()
+def cli_main(args):
+    if args and ("--help" in args or "-h" in args):
+        print(f"""
+  {C.RED}{C.BOLD}PHANTOM — Network Pivot Tracker{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire phantom    interactive pivot tracker
+
+  {C.DIM}Commands (inside phantom):{C.RESET}
+    list                  list all tracked pivots
+    add                   add a new pivot hop
+    gen                   generate SSH/Chisel/Ligolo command
+    map                   ASCII chain map of active pivots
+    show <id>             show pivot details + tunnel command
+    update <id>           update pivot status
+    remove <id>           remove a pivot
+    exit                  quit phantom
+
+  {C.DIM}Pivot types:{C.RESET} SSH_L · SSH_R · SSH_D · SOCKS5 · CHISEL · LIGOLO · MANUAL
+""")
+        return
+    _interactive()
+
 def launch(): _interactive()
