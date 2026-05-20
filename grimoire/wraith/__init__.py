@@ -324,6 +324,9 @@ def full_scan(target: str, save_report: bool = False) -> dict:
     report_data["ports"]  = port_probe(ip)
     report_data["rdns"]   = reverse_dns(ip)
     report_data["subs"]   = subdomain_probe(target)
+    report_data["crt"]      = crtsh_enum(target)
+    report_data["waf"]      = waf_detect(target)
+    report_data["takeover"] = subdomain_takeover(target, subdomains=[s["fqdn"] for s in report_data["subs"]])
 
     section("SCAN COMPLETE")
     print(f"  {C.GREEN}Wraith v2.1 scan finished: {target}{C.RESET}")
