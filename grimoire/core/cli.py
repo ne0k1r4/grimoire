@@ -51,6 +51,9 @@ def _dispatch(args):
     elif mod == "sovereign":
         from ..sovereign import cli_main
         cli_main(args.args)
+    elif mod == "sentinel":
+        from ..sentinel import cli_main
+        cli_main(args.args)
     elif mod == "web":
         from ..web import launch
         launch()
@@ -80,6 +83,7 @@ MODULES:
   vault        Credential manager — KeePassXC integration
   phantom      Network pivot tracker — SSH command generator, chain map
   sovereign    C2 manager — multi-session reverse shell handler
+  sentinel     Blue team — log analysis, IOC scanner, anomaly detection
   web          Local web dashboard on localhost:1337
 
 EXAMPLES:
