@@ -238,10 +238,33 @@ def _interactive():
             print(f"  {C.DIM}Commands: add | list [tag:X] [risk:X] | show <id> | update <id> | find <q> | report | exit{C.RESET}")
 
 def cli_main(args):
+    if args and ("--help" in args or "-h" in args):
+        print(f"""
+  {C.RED}{C.BOLD}CODEX — Target Journal{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire codex          interactive target journal
+    grimoire codex report   export full engagement report to markdown
+
+  {C.DIM}Commands (inside codex):{C.RESET}
+    add                   add a new target
+    list                  list all targets
+    show <id>             show target details + findings
+    find <query>          search by name, tag, or status
+    finding <id>          add a finding to a target
+    update <id>           update target status
+    remove <id>           remove a target
+    report                export markdown report
+    exit                  quit codex
+
+  {C.DIM}Risk levels:{C.RESET}  CRITICAL · HIGH · MEDIUM · LOW · INFO
+  {C.DIM}Reports saved to:{C.RESET} ~/.grimoire/reports/
+""")
+        return
     if args and args[0] == "report":
         targets = _load()
         saved = export_report(targets)
         print(f"  {C.GREEN}[+] Report: {saved}{C.RESET}")
-    else: _interactive()
+    else:
+        _interactive()
 
 def launch(): _interactive()

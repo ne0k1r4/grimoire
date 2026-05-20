@@ -79,11 +79,14 @@ def dns_lookup(domain: str) -> dict:
 
 def reverse_dns(ip: str) -> str:
     section("REVERSE DNS")
+    if not ip:
+        print(f"  {C.DIM}No IP to resolve{C.RESET}")
+        return ""
     try:
         host = socket.gethostbyaddr(ip)[0]
         print(f"  {C.CYAN}{ip}{C.RESET} => {host}")
         return host
-    except socket.herror:
+    except (socket.herror, socket.gaierror):
         print(f"  {C.DIM}No PTR record for {ip}{C.RESET}")
         return ""
 
@@ -378,7 +381,22 @@ def _interactive():
 
 
 def cli_main(args):
-    if not args: _interactive()
-    else: full_scan(args[0], save_report="--report" in args)
+    if not args:
+        _interactive()
+        return
+    if "--help" in args or "-h" in args:
+        print(f"""
+  {C.RED}{C.BOLD}WRAITH — Passive Recon{C.RESET}
+  {C.DIM}Usage:{C.RESET}
+    grimoire wraith                     interactive mode
+    grimoire wraith <target>            full passive recon scan
+    grimoire wraith <target> --report   scan + save markdown report
+
+  {C.DIM}Examples:{C.RESET}
+    grimoire wraith example.com
+    grimoire wraith example.com --report
+""")
+        return
+    full_scan(args[0], save_report="--report" in args)
 
 def launch(): _interactive()
