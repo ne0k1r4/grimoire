@@ -632,7 +632,7 @@ def run_anomaly_detection(alerts: list) -> list:
 
     for alert in alerts:
         detail = alert.get("detail", "") + alert.get("msg", "")
-        ip_m = re.search(r"ip=\S*([\d\.]+)", detail)
+        ip_m = re.search(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", detail)
         if ip_m:
             ip_counts[ip_m.group(1)] += 1
         user_m = re.search(r"user=\S*(\w+)", detail)
