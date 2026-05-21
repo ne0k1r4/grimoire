@@ -1,18 +1,43 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
 *.egg-info/
+*.egg
 dist/
 build/
 .eggs/
-*.egg
-*.log
-*.kdbx
-.env
-.venv
+.Python
+
+# Virtual environments
+.venv/
 venv/
+env/
+
+# Grimoire runtime data
+~/.grimoire/
+*.kdbx
+*.log
+
+# Editor
 *.swp
 *.swo
-~/.grimoire/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+*.pem
+config.json
+
+# Apply/patch scripts (dev tooling, not part of the suite)
+apply_*.py
+add_*.py
+*_clean.py
+*_ext_clean.py
