@@ -9,15 +9,12 @@
 # ═══════════════════════════════════════════════════════════════
 
 import sys
-import os
 import argparse
 from .banner import GRIMOIRE_BANNER, VERSION, AUTHOR, ALIAS, TAGLINE, GITHUB
-#from grimoire.arsenal_omega import get_omega_parser
+from grimoire.arsenal_omega import register_omega_commands
+
 
 def _print_banner():
-    # skip banner when called from apocalypse sub-invocations
-    if os.environ.get('GRIMOIRE_NO_BANNER') == '1':
-        return
     RED   = "\033[91m"
     DIM   = "\033[2m"
     RESET = "\033[0m"
@@ -89,14 +86,14 @@ MODULES:
   sovereign    C2 manager — multi-session reverse shell handler
   sentinel     Blue team — log analysis, IOC scanner, anomaly detection
   web          Local web dashboard on localhost:1337
-  
+
 EXAMPLES:
-  grimoire                             launch TUI dashboard
-  grimoire wraith example.com          full passive recon scan
-  grimoire forge                       interactive payload generator
-  grimoire codex report                export engagement report
-  grimoire web                         start web UI
-   """,
+  grimoire                        launch TUI dashboard
+  grimoire wraith example.com     full passive recon scan
+  grimoire forge                  interactive payload generator
+  grimoire codex report           export engagement report
+  grimoire web                    start web UI
+        """,
     )
     parser.add_argument("module", nargs="?", default=None)
     parser.add_argument("args", nargs=argparse.REMAINDER)
