@@ -1,19 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — forge/__init__.py
-#  Payload Generator — shells, obfuscation, encoding, export
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    15 reverse shell templates
-#    5 encoding methods
-#    3 obfuscation layers
-#    Save payload to file
-#    Listener command generator
-# ═══════════════════════════════════════════════════════════════
+# forge — payload generator
 
 import base64, os
 from datetime import datetime

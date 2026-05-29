@@ -1,12 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/cli.py
-#  CLI dispatcher — entry point for all subcommands
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# cli dispatcher
+# entry point for all grimoire subcommands
 
 import sys
 import os

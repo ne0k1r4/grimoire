@@ -1,23 +1,6 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — sentinel/__init__.py
-#  Blue Team Detection Engine
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    auth.log parser — brute force, SSH failures, sudo abuse
-#    syslog parser — suspicious processes, cron, kernel events
-#    Apache/Nginx parser — scanning, path traversal, SQLi/XSS
-#    Windows Event Log parser (.evtx) — 4625, 4672, 4720
-#    Custom log parser — regex anomaly detection on any file
-#    IOC scanner — AbuseIPDB + VirusTotal + offline fallback
-#    Anomaly detection — 6 rule engine
-#    Live tail mode — real-time log monitoring
-#    Report export — Markdown + JSON
-# ═══════════════════════════════════════════════════════════════
+# sentinel — blue team detection
+# log parsers, ioc scanner, anomaly engine, live tail
+# supports auth.log, syslog, apache/nginx, evtx
 
 import re, os, json, socket, time, hashlib, urllib.request, urllib.parse
 from datetime import datetime, timedelta
@@ -614,7 +597,7 @@ def scan_ioc(ioc: str, ioc_type: str = None) -> dict:
 
 
 # ══════════════════════════════════════════════════════════════
-# ANOMALY DETECTION ENGINE
+# ANOMALY DECTECTION ENGINE
 # ══════════════════════════════════════════════════════════════
 
 def run_anomaly_detection(alerts: list) -> list:

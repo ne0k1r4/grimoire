@@ -1,13 +1,3 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/sysinfo.py
-#  System stats — stdlib only, zero deps
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
-
 import os, time, platform, socket, struct
 
 _prev_net  = None

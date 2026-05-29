@@ -1,28 +1,7 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.1 — wraith/__init__.py
-#  Passive Recon Engine
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    DNS resolution (A/AAAA/MX), Reverse DNS
-#    SSL/TLS cert inspection + SANs
-#    WHOIS lookup
-#    IP geolocation + ASN
-#    Subdomain wordlist probe
-#    HTTP header fingerprinting
-#    Tech stack detection (server, framework, CMS)
-#    robots.txt + security.txt harvesting
-#    Open port probe (top 20 ports)
-#    Certificate Transparency enumeration (crt.sh)
-#    Subdomain Takeover detection (30 services)
-#    WAF / CDN fingerprinting (9 providers)
-#    Shodan host intelligence (API key required)
-#    Markdown/HTML report export
-# ═══════════════════════════════════════════════════════════════
+# wraith — passive recon engine
+# dns, whois, ssl, http fingerprinting, subdomain enum
+# crt.sh, subdomain takeover, waf detection, shodan
+
 
 import socket, ssl, json, urllib.request, urllib.parse
 import re, sys, subprocess
@@ -272,7 +251,7 @@ def ip_info(ip: str) -> dict:
         return {}
 
 
-# ── Subdomain probe ───────────────────────────────────────────
+# ── Subdomain probing ─────────────────────────────────────────
 
 def subdomain_probe(domain: str) -> list:
     section("SUBDOMAIN PROBE")

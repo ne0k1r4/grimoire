@@ -1,19 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — voxcrypt/__init__.py
-#  Steganography Engine + AES-grade Cipher
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    LSB PNG/BMP encoding + HMAC integrity check
-#    WAV audio LSB encoding
-#    Zero-width character (ZWC) text stego
-#    XOR-SHA256 stream cipher (AES-grade key)
-#    Compress-before-encrypt (zlib)
-# ═══════════════════════════════════════════════════════════════
+# voxcrypt stego engine
+# lsb png/wav, zwc text injection, xor-sha256 cipher
 
 import os, struct, hashlib, wave, zlib, hmac
 from pathlib import Path

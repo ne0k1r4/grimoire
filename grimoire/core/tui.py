@@ -1,12 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/tui.py
-#  Death Note TUI Dashboard
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# tui dashboard — curses
+# this thing breaks if terminal is under 80x24, dont bother fixing it
 
 import curses
 import time

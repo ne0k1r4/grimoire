@@ -1,12 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/oplog.py
-#  Op Log — thread-safe, persistent, ring-buffered
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# oplog — thread-safe json ring buffer
+# keeps last 2000 entries in ~/.grimoire/oplog.json
 
 import os, json, threading
 from datetime import datetime
@@ -69,4 +62,4 @@ def init():
             with open(LOG_FILE) as f: disk = json.load(f)
             with _lock: _entries = disk[-MAX_MEM:]
         except Exception: pass
-    log(f"GRIMOIRE v2.0 initialized — Light (Neok1ra)", "core")
+    log(f"GRIMOIRE v2.1 initialized — Light (Neok1ra)", "core")

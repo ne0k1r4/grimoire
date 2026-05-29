@@ -1,11 +1,4 @@
-"""
-GRIMOIRE v2.1 — setup.py
-The Death Note of the digital world
-
-Developer  : Light
-Alias      : Neok1ra
-GitHub     : https://github.com/ne0k1r4
-"""
+# setup.py — pip install -e .
 
 from setuptools import setup, find_packages
 

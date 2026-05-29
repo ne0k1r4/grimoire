@@ -35,9 +35,3 @@ Thumbs.db
 *.key
 *.pem
 config.json
-
-# Apply/patch scripts (dev tooling, not part of the suite)
-apply_*.py
-add_*.py
-*_clean.py
-*_ext_clean.py

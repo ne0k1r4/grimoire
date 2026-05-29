@@ -1,20 +1,3 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — sovereign/__init__.py
-#  C2 Manager — Multi-session Reverse Shell Handler
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    Multi-session TCP listener
-#    Per-session command history (saved to disk)
-#    Session tagging and naming
-#    Background / foreground session management
-#    Auto-log all I/O per session
-# ═══════════════════════════════════════════════════════════════
-
 import socket, threading, os, sys, select, json, hashlib, time
 from datetime import datetime
 from pathlib import Path
