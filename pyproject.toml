@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grimoire-suite"
+version = "2.1.0"
+description = "GRIMOIRE — Unified Operator Suite"
+readme = "README.md"
+authors = [
+    { name = "Light", email = "neok1ra@proton.me" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Security",
+    "Environment :: Console",
+    "Development Status :: 4 - Beta",
+]
+keywords = ["grimoire", "ne0k1r4", "red-team", "pentest", "recon", "steganography", "c2", "sentinel"]
+requires-python = ">=3.8"
+dependencies = [
+    "flask>=2.0",
+]
+
+[project.optional-dependencies]
+web = ["flask>=2.0"]
+evtx = ["python-evtx"]
+
+[project.urls]
+Homepage = "https://github.com/ne0k1r4/grimoire"
+
+[project.scripts]
+grimoire = "grimoire.core.cli:main"
+
+[tool.setuptools]
+packages = ["grimoire", "grimoire.core", "grimoire.utils", "grimoire.wraith", "grimoire.forge", "grimoire.voxcrypt", "grimoire.phantom", "grimoire.sovereign", "grimoire.codex", "grimoire.sentinel", "grimoire.vault", "grimoire.web", "grimoire.arsenal_omega", "grimoire.arsenal_omega.modules"]

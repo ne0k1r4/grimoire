@@ -20,232 +20,903 @@ YLW   = "\033[93m"
 HTML_TEMPLATE = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GRIMOIRE v2.0 — Neok1ra Operator Dashboard</title>
-<style>
-  :root {
-    --bg:#0a0000; --bg2:#120000; --bg3:#1a0000;
-    --red:#cc0000; --red2:#ff2222; --cream:#e8d5c4;
-    --dim:#6a5a52; --border:#2a0000; --green:#22aa44;
-    --yellow:#ccaa00; --cyan:#00aacc;
-    --font:'Courier New',Courier,monospace;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--cream);font-family:var(--font);font-size:13px;min-height:100vh}
-  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:var(--bg2)}
-  ::-webkit-scrollbar-thumb{background:var(--red)}
-  header{background:var(--bg2);border-bottom:1px solid var(--red);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
-  .logo{color:var(--red2);font-size:18px;font-weight:bold;letter-spacing:6px;text-shadow:0 0 12px #ff000055}
-  .meta{color:var(--dim);font-size:10px;margin-top:2px}
-  nav a{color:var(--dim);text-decoration:none;margin-left:18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .15s}
-  nav a:hover{color:var(--red2)}
-  .layout{display:grid;grid-template-columns:200px 1fr;height:calc(100vh - 44px)}
-  .sidebar{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto}
-  .sidebar-section{padding:10px 0}
-  .sidebar-title{color:var(--red);font-size:9px;letter-spacing:3px;padding:4px 14px 6px;border-bottom:1px solid var(--border)}
-  .mod-link{display:block;padding:8px 14px;color:var(--dim);text-decoration:none;font-size:11px;letter-spacing:1px;border-left:2px solid transparent;transition:all .15s;display:flex;justify-content:space-between;align-items:center}
-  .mod-link:hover,.mod-link.active{color:var(--cream);border-left-color:var(--red);background:rgba(200,0,0,0.07)}
-  .badge{font-size:9px;color:var(--green);border:1px solid var(--green);padding:1px 5px;border-radius:2px;letter-spacing:1px}
-  .main{overflow-y:auto;display:flex;flex-direction:column}
-  .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;flex-wrap:wrap;gap:20px;align-items:center}
-  .stat{font-size:11px;color:var(--dim)} .stat span{color:var(--cream)}
-  .content{padding:16px;flex:1}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-  .panel{background:var(--bg2);border:1px solid var(--border);margin-bottom:14px}
-  .ph{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--red);font-size:10px;letter-spacing:3px;font-weight:bold;display:flex;justify-content:space-between;align-items:center}
-  .ph .count{color:var(--dim);font-size:10px;font-weight:normal;letter-spacing:0}
-  .pb{padding:10px 12px}
-  .entry{padding:6px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:28px 1fr 80px 80px 1fr;gap:6px;align-items:center;font-size:11px}
-  .entry:last-child{border:none}
-  .risk-CRITICAL{color:#ff2222;font-weight:bold} .risk-HIGH{color:#cc0000}
-  .risk-MEDIUM{color:#ccaa00} .risk-LOW{color:#00aacc} .risk-INFO{color:var(--dim)}
-  .st-ACTIVE{color:#ff2222} .st-WATCHING{color:#ccaa00} .st-OWNED{color:#22aa44}
-  .st-CLOSED{color:var(--dim)} .st-PENDING{color:#00aacc}
-  .log-line{font-size:10px;padding:2px 0;border-bottom:1px solid rgba(40,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .log-line:last-child{border:none}
-  .log-ts{color:var(--red)} .log-mod{color:var(--cream);font-size:9px}
-  .mods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-  .mc{background:var(--bg);border:1px solid var(--border);padding:12px;cursor:pointer;transition:border-color .15s}
-  .mc:hover{border-color:var(--red)}
-  .mc-name{color:var(--red2);font-weight:bold;font-size:12px;letter-spacing:2px}
-  .mc-desc{color:var(--dim);font-size:10px;margin-top:3px}
-  .mc-live{color:var(--green);font-size:9px;margin-top:6px;letter-spacing:1px}
-  .port-badge{display:inline-block;background:var(--bg3);border:1px solid var(--border);color:var(--cyan);font-size:10px;padding:1px 6px;margin:2px;border-radius:2px}
-  .sub-entry{font-size:10px;padding:2px 0;color:var(--dim)} .sub-entry span{color:var(--cream)}
-  footer{padding:6px 16px;color:var(--dim);font-size:10px;border-top:1px solid var(--border);background:var(--bg2);text-align:center}
-  .pulse{animation:pulse 2s infinite} @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GRIMOIRE Unified Operator Suite local dashboard. Track engagement logs, active modules, and target databases.">
+  <title>GRIMOIRE v2.0 — Operator Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06060a;
+      --card-bg: rgba(15, 15, 24, 0.65);
+      --border: rgba(230, 57, 70, 0.12);
+      --border-hover: rgba(230, 57, 70, 0.35);
+      --primary: #f4f4f6;
+      --secondary: #a0a0ab;
+      --dim: #52525b;
+      --red: #e63946;
+      --red-glow: rgba(230, 57, 70, 0.3);
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.2);
+      --yellow: #f59e0b;
+      --cyan: #06b6d4;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-serif: 'Cinzel', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 10, 15, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(230, 57, 70, 0.3);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--red);
+    }
+
+    header {
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      color: var(--primary);
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo span {
+      color: var(--red);
+    }
+
+    .meta {
+      color: var(--dim);
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    nav a {
+      color: var(--secondary);
+      text-decoration: none;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--primary);
+      background: rgba(230, 57, 70, 0.08);
+      border-color: rgba(230, 57, 70, 0.15);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      height: calc(100vh - 57px);
+    }
+
+    .sidebar {
+      background: rgba(8, 8, 12, 0.95);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-section-title {
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 0 16px 6px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      margin-bottom: 6px;
+    }
+
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mod-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      color: var(--secondary);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .mod-link:hover, .mod-link.active {
+      color: var(--primary);
+      background: rgba(230, 57, 70, 0.05);
+      border-left-color: var(--red);
+    }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--green);
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 1px 5px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .risk-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .risk-CRITICAL { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #ef4444; }
+    .risk-HIGH { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; }
+    .risk-MEDIUM { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); color: #f59e0b; }
+    .risk-LOW { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.25); color: #06b6d4; }
+    .risk-INFO { background: rgba(160, 160, 171, 0.08); border: 1px solid rgba(160, 160, 171, 0.15); color: var(--secondary); }
+
+    .main {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: rgba(10, 10, 15, 0.5);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--secondary);
+    }
+
+    .stat-card span {
+      color: var(--primary);
+      font-weight: 600;
+      margin-left: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .clock {
+      margin-left: auto;
+      color: var(--red);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 1px;
+      background: rgba(230, 57, 70, 0.06);
+      border: 1px solid rgba(230, 57, 70, 0.15);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 30px rgba(230, 57, 70, 0.06);
+    }
+
+    .panel-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-family: var(--font-serif);
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .panel-meta {
+      color: var(--dim);
+      font-size: 11px;
+    }
+
+    .panel-body {
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .table-container {
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      padding: 10px 16px;
+      font-weight: 600;
+      color: var(--secondary);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--primary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .status-text {
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .st-ACTIVE { color: var(--red); }
+    .st-WATCHING { color: var(--yellow); }
+    .st-OWNED { color: var(--green); }
+    .st-CLOSED { color: var(--dim); }
+    .st-PENDING { color: var(--cyan); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .module-card {
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 14px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .module-card:hover {
+      background: rgba(230, 57, 70, 0.03);
+      border-color: rgba(230, 57, 70, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .module-name {
+      color: var(--primary);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .module-desc {
+      color: var(--secondary);
+      font-size: 10.5px;
+      line-height: 1.3;
+    }
+
+    .module-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--green);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: auto;
+    }
+
+    .status-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .oplog-container {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      max-height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 6px;
+    }
+
+    .log-entry {
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: 4px;
+      border-left: 3px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .log-ts {
+      color: var(--red);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .log-mod {
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      flex-shrink: 0;
+      width: 75px;
+    }
+
+    .log-msg {
+      color: var(--primary);
+      word-break: break-all;
+    }
+
+    .log-CRITICAL { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.03); }
+    .log-WARN { border-left-color: var(--yellow); background: rgba(245, 158, 11, 0.03); }
+    .log-ERROR { border-left-color: var(--red); background: rgba(230, 57, 70, 0.03); }
+
+    footer {
+      padding: 16px;
+      color: var(--dim);
+      font-size: 11px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: rgba(8, 8, 12, 0.95);
+      letter-spacing: 0.5px;
+    }
+
+    footer strong {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .pulse {
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div>
-    <div class="logo">G R I M O I R E</div>
-    <div class="meta">v2.0.0 &nbsp;·&nbsp; Developer: Light (Neok1ra) &nbsp;·&nbsp; github.com/ne0k1r4</div>
-  </div>
-  <nav>
-    <a href="/" class="active">Dashboard</a>
-    <a href="/codex">Codex</a>
-    <a href="/api/sysinfo" target="_blank">API</a>
-  </nav>
-</header>
-<div class="layout">
-  <aside class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-title">MODULES</div>
-      <a class="mod-link active" href="/">DASHBOARD</a>
-      <a class="mod-link" href="/codex">CODEX <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">WRAITH <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">VOXCRYPT <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">FORGE <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">VAULT <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">PHANTOM <span class="badge">LIVE</span></a>
-      <a class="mod-link" href="#">SOVEREIGN <span class="badge">LIVE</span></a>
+  <header>
+    <div class="brand">
+      <h1 class="logo">G R I M O I R E<span>.</span></h1>
+      <div class="meta">v2.1.0 &nbsp;·&nbsp; Unified Operator Suite</div>
     </div>
-    <div class="sidebar-section">
-      <div class="sidebar-title">RECON TARGETS</div>
-      {% for t in targets[:8] %}
-      <a class="mod-link" href="#">
-        <span style="font-size:10px">{{ t.name[:16] }}</span>
-        <span class="risk-{{ t.risk|default('LOW') }}" style="font-size:9px">{{ t.risk|default('?') }}</span>
-      </a>
-      {% endfor %}
-    </div>
-  </aside>
-  <div class="main">
-    <div class="topbar">
-      <div class="stat">HOST <span>{{ host }}</span></div>
-      <div class="stat">IP <span>{{ ip }}</span></div>
-      <div class="stat">CPU <span id="cpu">{{ cpu }}</span></div>
-      <div class="stat">RAM <span>{{ ram }}</span></div>
-      <div class="stat">↑<span>{{ net_up }}</span> ↓<span>{{ net_down }}</span></div>
-      <div class="stat">UP <span>{{ uptime }}</span></div>
-      <div class="stat" style="margin-left:auto;color:var(--red)" id="clock"></div>
-    </div>
-    <div class="content">
-      <!-- targets -->
-      <div class="panel">
-        <div class="ph">CODEX — TARGETS <span class="count">{{ targets|length }} total</span></div>
-        <div class="pb">
-          {% if targets %}
-          {% for t in targets %}
-          <div class="entry">
-            <span style="color:var(--dim)">{{ loop.index }}</span>
-            <span>{{ t.name }}</span>
-            <span class="risk-{{ t.risk|default('LOW') }}">{{ t.risk|default('?') }}</span>
-            <span class="st-{{ t.status }}">{{ t.status }}</span>
-            <span style="color:var(--dim);font-size:10px">{{ t.notes[:35] }}</span>
-          </div>
-          {% endfor %}
-          {% else %}
-          <div style="color:var(--dim);padding:8px 0;font-size:11px">No targets. Run <code>grimoire codex add</code></div>
-          {% endif %}
-        </div>
-      </div>
-      <div class="grid2">
-        <!-- modules -->
-        <div class="panel">
-          <div class="ph">MODULES</div>
-          <div class="pb">
-            <div class="mods-grid">
-              {% for m in modules %}
-              <div class="mc">
-                <div class="mc-name">{{ m.name }}</div>
-                <div class="mc-desc">{{ m.desc }}</div>
-                <div class="mc-live pulse">● LIVE</div>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-        <!-- oplog -->
-        <div class="panel">
-          <div class="ph">OP LOG <span class="count">last 20</span></div>
-          <div class="pb" id="oplog">
-            {% for e in oplog %}
-            <div class="log-line">
-              <span class="log-ts">[{{ e.ts }}]</span>
-              <span class="log-mod"> [{{ e.module|upper }}] </span>
-              {{ e.msg }}
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<footer>
-  GRIMOIRE v2.0.0 &nbsp;·&nbsp; Developer: <strong style="color:var(--red)">Light (Neok1ra)</strong>
-  &nbsp;·&nbsp; github.com/ne0k1r4 &nbsp;·&nbsp; The Death Note of the digital world
-</footer>
-<script>
-  // live clock
-  function tick(){
-    const now=new Date();
-    document.getElementById('clock').textContent=
-      now.toTimeString().slice(0,8);
-  }
-  setInterval(tick,1000); tick();
+    <nav>
+      <a href="/" class="active" id="nav-dashboard">Dashboard</a>
+      <a href="/codex" id="nav-codex">Codex</a>
+      <a href="/api/sysinfo" target="_blank" id="nav-api">API Status</a>
+    </nav>
+  </header>
 
-  // auto-refresh oplog every 10s
-  setInterval(()=>{
-    fetch('/api/oplog').then(r=>r.json()).then(data=>{
-      const el=document.getElementById('oplog');
-      if(!el) return;
-      el.innerHTML=data.slice(-20).map(e=>
-        `<div class="log-line"><span class="log-ts">[${e.ts}]</span> <span class="log-mod">[${e.module.toUpperCase()}]</span> ${e.msg}</div>`
-      ).join('');
-    }).catch(()=>{});
-  },10000);
-</script>
+  <main class="layout">
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-section-title">Suite Modules</div>
+        <div class="sidebar-list">
+          <a class="mod-link active" href="/" id="link-dash">Dashboard</a>
+          <a class="mod-link" href="/codex" id="link-codex">Codex Targets</a>
+          <a class="mod-link" href="#" id="link-wraith">Wraith Recon <span class="badge">Live</span></a>
+          <a class="mod-link" href="#" id="link-vox">Voxcrypt Stego <span class="badge">Live</span></a>
+          <a class="mod-link" href="#" id="link-forge">Forge Payload <span class="badge">Live</span></a>
+          <a class="mod-link" href="#" id="link-phantom">Phantom Pivot <span class="badge">Live</span></a>
+          <a class="mod-link" href="#" id="link-sov">Sovereign C2 <span class="badge">Live</span></a>
+        </div>
+      </div>
+      <div>
+        <div class="sidebar-section-title">Recent Targets</div>
+        <div class="sidebar-list" id="sidebar-targets">
+          {% for t in targets[:6] %}
+          <a class="mod-link" href="#" id="target-side-{{ loop.index }}">
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px;">{{ t.name }}</span>
+            <span class="risk-badge risk-{{ t.risk|default('LOW') }}" style="font-size:8px;padding:1px 4px;">{{ t.risk|default('?') }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <section class="topbar">
+        <div class="stat-card" id="stat-host">HOST<span>{{ host }}</span></div>
+        <div class="stat-card" id="stat-ip">IP<span>{{ ip }}</span></div>
+        <div class="stat-card" id="stat-cpu">CPU<span id="cpu">{{ cpu }}</span></div>
+        <div class="stat-card" id="stat-ram">RAM<span>{{ ram }}</span></div>
+        <div class="stat-card" id="stat-net">NET<span>↑{{ net_up }} ↓{{ net_down }}</span></div>
+        <div class="stat-card" id="stat-uptime">UPTIME<span>{{ uptime }}</span></div>
+        <div class="clock" id="clock">00:00:00</div>
+      </section>
+
+      <section class="content">
+        <!-- Active Targets Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Codex Active Targets</h2>
+            <div class="panel-meta" id="codex-count">{{ targets|length }} tracked target(s)</div>
+          </div>
+          <div class="panel-body">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">Index</th>
+                    <th>Target Name</th>
+                    <th>Risk Rating</th>
+                    <th>Status</th>
+                    <th>Notes Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="targets-table-body">
+                  {% if targets %}
+                  {% for t in targets %}
+                  <tr>
+                    <td style="color: var(--dim);">{{ loop.index }}</td>
+                    <td style="font-weight: 500;">{{ t.name }}</td>
+                    <td><span class="risk-badge risk-{{ t.risk|default('LOW') }}">{{ t.risk|default('?') }}</span></td>
+                    <td><span class="status-text st-{{ t.status }}">{{ t.status }}</span></td>
+                    <td style="color: var(--secondary); font-size: 12px;">{{ t.notes[:65] }}{% if t.notes|length > 65 %}...{% endif %}</td>
+                  </tr>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td colspan="5" style="color: var(--dim); text-align: center; padding: 24px;">No active targets. Run 'grimoire codex' in the CLI to register.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Modules Status -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Operator Modules</h2>
+              <div class="panel-meta">Capabilities</div>
+            </div>
+            <div class="panel-body">
+              <div class="modules-grid">
+                {% for m in modules %}
+                <div class="module-card">
+                  <div class="module-name">{{ m.name }}</div>
+                  <div class="module-desc">{{ m.desc }}</div>
+                  <div class="module-status">
+                    <div class="status-dot pulse"></div>
+                    <span>ACTIVE</span>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Op Log -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Operational Log</h2>
+              <div class="panel-meta">Timeline</div>
+            </div>
+            <div class="panel-body">
+              <div class="oplog-container" id="oplog">
+                {% for e in oplog %}
+                <div class="log-entry log-{{ e.level|default('INFO') }}">
+                  <span class="log-ts">[{{ e.ts }}]</span>
+                  <span class="log-mod">[{{ e.module|upper }}]</span>
+                  <span class="log-msg">{{ e.msg }}</span>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    GRIMOIRE v2.1.0 &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong> &nbsp;·&nbsp; The Death Note of the digital world
+  </footer>
+
+  <script>
+    // Live Clock
+    function tick() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toTimeString().slice(0, 8);
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    // Auto-refresh stats and oplog
+    function refreshData() {
+      // Refresh Op Log
+      fetch('/api/oplog')
+        .then(r => r.json())
+        .then(data => {
+          const el = document.getElementById('oplog');
+          if (!el) return;
+          el.innerHTML = data.slice(-20).reverse().map(e => {
+            const lvl = e.level || 'INFO';
+            return `<div class="log-entry log-${lvl}">
+              <span class="log-ts">[${e.ts}]</span>
+              <span class="log-mod">[${e.module.toUpperCase()}]</span>
+              <span class="log-msg">${e.msg}</span>
+            </div>`;
+          }).join('');
+        })
+        .catch(() => {});
+
+      // Refresh CPU
+      fetch('/api/sysinfo')
+        .then(r => r.json())
+        .then(data => {
+          const cpuEl = document.getElementById('cpu');
+          if (cpuEl && data.cpu) {
+            cpuEl.textContent = data.cpu;
+          }
+        })
+        .catch(() => {});
+    }
+
+    setInterval(refreshData, 5000);
+  </script>
 </body>
 </html>"""
 
 CODEX_TEMPLATE = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>GRIMOIRE — Codex</title>
-<style>
-  :root{--bg:#0a0000;--bg2:#120000;--red:#cc0000;--red2:#ff2222;--cream:#e8d5c4;--dim:#6a5a52;--border:#2a0000;--green:#22aa44;--yellow:#ccaa00;--cyan:#00aacc;--font:'Courier New',monospace}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--cream);font-family:var(--font);font-size:13px;padding:20px}
-  h1{color:var(--red2);letter-spacing:6px;margin-bottom:4px}
-  .sub{color:var(--dim);font-size:11px;margin-bottom:20px}
-  table{width:100%;border-collapse:collapse}
-  th{color:var(--red);font-size:10px;letter-spacing:2px;padding:8px;border-bottom:1px solid var(--border);text-align:left}
-  td{padding:8px;border-bottom:1px solid var(--border);font-size:12px}
-  .risk-CRITICAL{color:#ff2222;font-weight:bold} .risk-HIGH{color:#cc0000}
-  .risk-MEDIUM{color:#ccaa00} .risk-LOW{color:#00aacc} .risk-INFO{color:var(--dim)}
-  .st-ACTIVE{color:#ff2222} .st-WATCHING{color:#ccaa00} .st-OWNED{color:#22aa44}
-  .st-CLOSED{color:var(--dim)}
-  a{color:var(--dim);text-decoration:none} a:hover{color:var(--red2)}
-  footer{margin-top:20px;color:var(--dim);font-size:10px;text-align:center;border-top:1px solid var(--border);padding-top:10px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GRIMOIRE targets journal - active intelligence catalog.">
+  <title>GRIMOIRE — Codex targets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06060a;
+      --card-bg: rgba(15, 15, 24, 0.65);
+      --border: rgba(230, 57, 70, 0.12);
+      --border-hover: rgba(230, 57, 70, 0.35);
+      --primary: #f4f4f6;
+      --secondary: #a0a0ab;
+      --dim: #52525b;
+      --red: #e63946;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --cyan: #06b6d4;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-serif: 'Cinzel', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 30px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .back-btn {
+      color: var(--secondary);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+      width: fit-content;
+    }
+
+    .back-btn:hover {
+      color: var(--red);
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      color: var(--primary);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      text-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+      margin-top: 10px;
+    }
+
+    h1 span {
+      color: var(--red);
+    }
+
+    .sub {
+      color: var(--secondary);
+      font-size: 12px;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      padding: 24px;
+      overflow-x: auto;
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--secondary);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--primary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .risk-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .risk-CRITICAL { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #ef4444; }
+    .risk-HIGH { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; }
+    .risk-MEDIUM { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); color: #f59e0b; }
+    .risk-LOW { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.25); color: #06b6d4; }
+    .risk-INFO { background: rgba(160, 160, 171, 0.08); border: 1px solid rgba(160, 160, 171, 0.15); color: var(--secondary); }
+
+    .status-text {
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .st-ACTIVE { color: var(--red); }
+    .st-WATCHING { color: var(--yellow); }
+    .st-OWNED { color: var(--green); }
+    .st-CLOSED { color: var(--dim); }
+    .st-PENDING { color: var(--cyan); }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--secondary);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      margin-right: 4px;
+      display: inline-block;
+    }
+
+    footer {
+      padding-top: 20px;
+      color: var(--dim);
+      font-size: 11px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      letter-spacing: 0.5px;
+    }
+
+    footer strong {
+      color: var(--red);
+    }
+  </style>
 </head>
 <body>
-<a href="/">← Dashboard</a>
-<h1 style="margin-top:12px">C O D E X</h1>
-<div class="sub">Developer: Light (Neok1ra) · github.com/ne0k1r4</div>
-<table>
-<tr><th>#</th><th>ID</th><th>TARGET</th><th>RISK</th><th>STATUS</th><th>TAGS</th><th>NOTES</th><th>ADDED</th></tr>
-{% for t in targets %}
-<tr>
-  <td style="color:var(--dim)">{{ loop.index }}</td>
-  <td style="color:var(--dim);font-size:10px">{{ t.id }}</td>
-  <td>{{ t.name }}</td>
-  <td class="risk-{{ t.risk|default('LOW') }}">{{ t.risk|default('?') }}</td>
-  <td class="st-{{ t.status }}">{{ t.status }}</td>
-  <td style="color:var(--dim);font-size:10px">{{ t.tags|join(', ') }}</td>
-  <td style="color:var(--dim);font-size:10px">{{ t.notes[:40] }}</td>
-  <td style="color:var(--dim);font-size:10px">{{ t.added }}</td>
-</tr>
-{% else %}
-<tr><td colspan="8" style="color:var(--dim);padding:16px">No targets yet.</td></tr>
-{% endfor %}
-</table>
-<footer>GRIMOIRE v2.0.0 · Developer: Light (Neok1ra) · The Death Note of the digital world</footer>
+  <a href="/" class="back-btn" id="btn-back">← Back to Dashboard</a>
+  <h1 id="heading-codex">C O D E X<span>.</span></h1>
+  <div class="sub">Grimoire Active Intel Ledger &nbsp;·&nbsp; Target Database</div>
+
+  <div class="panel">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 60px;">Index</th>
+          <th>ID</th>
+          <th>Target Name</th>
+          <th>Risk Rating</th>
+          <th>Status</th>
+          <th>Tags</th>
+          <th>Added Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in targets %}
+        <tr>
+          <td style="color: var(--dim);">{{ loop.index }}</td>
+          <td style="font-family: var(--font-mono); font-size: 11px; color: var(--secondary);">{{ t.id }}</td>
+          <td style="font-weight: 600;">{{ t.name }}</td>
+          <td><span class="risk-badge risk-{{ t.risk|default('LOW') }}">{{ t.risk|default('?') }}</span></td>
+          <td><span class="status-text st-{{ t.status }}">{{ t.status }}</span></td>
+          <td>
+            {% for tag in t.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% else %}
+            <span style="color: var(--dim); font-size: 11px;">-</span>
+            {% endfor %}
+          </td>
+          <td style="color: var(--secondary); font-size: 12px;">{{ t.added }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" style="color: var(--dim); text-align: center; padding: 32px;">No targets registered in codex database.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    GRIMOIRE v2.1.0 &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong>
+  </footer>
 </body>
 </html>"""
 
@@ -303,7 +974,7 @@ def launch(host: str = "127.0.0.1", port: int = 1337):
     @app.route("/api/oplog")
     def api_oplog(): return jsonify(get_recent(50))
 
-    print(f"\n  {GRN}[*] GRIMOIRE v2.0 web UI → http://{host}:{port}{RESET}")
+    print(f"\n  {GRN}[*] GRIMOIRE v2.1 web UI → http://{host}:{port}{RESET}")
     print(f"  {GRN}    Developer: Light (Neok1ra) — github.com/ne0k1r4{RESET}")
     print(f"  {YLW}    Press Ctrl+C to stop.{RESET}\n")
     import logging

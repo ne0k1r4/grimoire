@@ -12,7 +12,8 @@ import sys
 import os
 import argparse
 from .banner import GRIMOIRE_BANNER, VERSION, AUTHOR, ALIAS, TAGLINE, GITHUB
-#from grimoire.arsenal_omega import get_omega_parser
+from grimoire.arsenal_omega import get_omega_parser
+
 
 def _print_banner():
     # skip banner when called from apocalypse sub-invocations
@@ -61,6 +62,13 @@ def _dispatch(args):
     elif mod == "web":
         from ..web import launch
         launch()
+    elif mod == "omega":
+        omega_parser = get_omega_parser()
+        omega_args = omega_parser.parse_args(args.args)
+        if hasattr(omega_args, 'func'):
+            omega_args.func(omega_args)
+        else:
+            omega_parser.print_help()
     elif mod == "version":
         print(f"GRIMOIRE v{VERSION}  |  {AUTHOR} ({ALIAS})  |  {GITHUB}")
     else:
@@ -89,14 +97,17 @@ MODULES:
   sovereign    C2 manager — multi-session reverse shell handler
   sentinel     Blue team — log analysis, IOC scanner, anomaly detection
   web          Local web dashboard on localhost:1337
-  
+  omega        Arsenal Omega — Ghost Hollow, Silicon Death, Data Harvester
+
 EXAMPLES:
   grimoire                             launch TUI dashboard
   grimoire wraith example.com          full passive recon scan
   grimoire forge                       interactive payload generator
-  grimoire codex report                export engagement report
   grimoire web                         start web UI
-   """,
+  grimoire omega ghost-hollow          post-exploitation + persistence
+  grimoire omega silicon-death         security annihilation
+  grimoire omega data-harvester        mass data exfiltration
+        """,
     )
     parser.add_argument("module", nargs="?", default=None)
     parser.add_argument("args", nargs=argparse.REMAINDER)
