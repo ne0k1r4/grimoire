@@ -1,11 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/banner.py
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# banner strings + version info
 
 GRIMOIRE_BANNER = r"""
   ██████╗ ██████╗ ██╗███╗   ███╗ ██████╗ ██╗██████╗ ███████╗
@@ -61,7 +54,7 @@ KIRA_MOTD = [
     "Checkmate.",
 ]
 
-VERSION   = "2.0.0"
+VERSION   = "2.1.0"
 AUTHOR    = "Light"
 ALIAS     = "Neok1ra"
 GITHUB    = "https://github.com/ne0k1r4"
