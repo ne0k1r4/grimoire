@@ -1,13 +1,3 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — vault/__init__.py
-#  Credential Manager — KeePassXC CLI
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
-
 import os, subprocess, getpass
 from pathlib import Path
 from ..utils import C, section

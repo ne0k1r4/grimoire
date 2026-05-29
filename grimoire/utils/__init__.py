@@ -1,12 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — utils/__init__.py
-#  Shared utilities: colors, reporting, banners
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# shared utils — colors, report builder, helpers
 
 import os
 import json
