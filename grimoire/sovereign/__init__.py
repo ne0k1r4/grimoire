@@ -30,6 +30,7 @@ class ShellSession(threading.Thread):
         self.history = []           # command history for this session
         self.name    = f"shell-{sid}"
         self.log_file= DATA_DIR / f"{sid}.log"
+        self.read_idx = 0
         DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     def _log(self, line: str):
@@ -76,10 +77,11 @@ class ShellSession(threading.Thread):
 
     def get_output(self, timeout: float = 0.5) -> str:
         time.sleep(timeout)
-        out = "".join(b.replace("RECV: ","") for b in self.buf if b.startswith("[") and "RECV:" in b)
-        # only return recent output since last send
-        lines = [b for b in self.buf[-20:] if "RECV:" in b]
-        return "\n".join(l.split("RECV: ",1)[-1] for l in lines)
+        with _sessions_lock:
+            new_entries = self.buf[self.read_idx:]
+            self.read_idx = len(self.buf)
+        lines = [b for b in new_entries if "RECV:" in b]
+        return "\n".join(l.split("RECV: ", 1)[-1].rstrip('\r\n') for l in lines)
 
 
 class Listener(threading.Thread):
