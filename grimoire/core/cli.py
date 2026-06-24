@@ -12,6 +12,7 @@ def _print_banner():
     # skip banner when called from apocalypse sub-invocations
     if os.environ.get('GRIMOIRE_NO_BANNER') == '1':
         return
+    import time
     RED   = "\033[91m"
     DIM   = "\033[2m"
     RESET = "\033[0m"
