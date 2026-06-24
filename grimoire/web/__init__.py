@@ -872,12 +872,17 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       color: var(--primary);
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    tbody tr {
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    tr:hover td {
+    tbody tr:hover td {
       background: rgba(255, 255, 255, 0.015);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     .risk-badge {
