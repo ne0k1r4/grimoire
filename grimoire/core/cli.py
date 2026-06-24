@@ -34,9 +34,11 @@ def _print_banner():
         g = int(start_g + (end_g - start_g) * factor)
         b = int(start_b + (end_b - start_b) * factor)
         print(f"\033[38;2;{r};{g};{b}m{line}\033[0m")
+        time.sleep(0.015)
         
     print(f"  {BOLD}{RED}v{VERSION}{RESET}  {DIM}|  {CREAM}{AUTHOR} ({ALIAS}){RESET}  {DIM}|  {GITHUB}{RESET}")
-    print(f"  {DIM}{TAGLINE}{RESET}\n")
+    print(f"  {DIM}{TAGLINE}{RESET}")
+    print(RED + "  ═══════════════════════════════════════════════════════════════" + RESET + "\n")
 
 
 def _dispatch(args):
