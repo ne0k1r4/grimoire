@@ -18,7 +18,23 @@ def _print_banner():
     RESET = "\033[0m"
     BOLD  = "\033[1m"
     CREAM = "\033[38;2;232;213;196m"
-    print(RED + BOLD + GRIMOIRE_BANNER + RESET)
+    
+    # Draw vertical truecolor gradient (Crimson -> Deep Wine Red)
+    start_r, start_g, start_b = 230, 57, 70
+    end_r, end_g, end_b = 100, 10, 20
+    lines = GRIMOIRE_BANNER.splitlines()
+    n = len(lines)
+    
+    for i, line in enumerate(lines):
+        if not line.strip():
+            print()
+            continue
+        factor = i / max(1, n - 1)
+        r = int(start_r + (end_r - start_r) * factor)
+        g = int(start_g + (end_g - start_g) * factor)
+        b = int(start_b + (end_b - start_b) * factor)
+        print(f"\033[38;2;{r};{g};{b}m{line}\033[0m")
+        
     print(f"  {BOLD}{RED}v{VERSION}{RESET}  {DIM}|  {CREAM}{AUTHOR} ({ALIAS}){RESET}  {DIM}|  {GITHUB}{RESET}")
     print(f"  {DIM}{TAGLINE}{RESET}\n")
 
