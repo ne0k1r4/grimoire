@@ -1,12 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/tui.py
-#  Death Note TUI Dashboard
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# tui dashboard — curses
+# this thing breaks if terminal is under 80x24, dont bother fixing it
 
 import curses
 import time
@@ -124,8 +117,18 @@ class GrimoireTUI:
             pass
 
     def _box(self, win, title=""):
-        try: win.box()
-        except curses.error: pass
+        try:
+            h, w = win.getmaxyx()
+            border_attr = curses.color_pair(C_BORDER)
+            # Top and bottom borders
+            win.addstr(0, 0, '╔' + '═' * (w - 2) + '╗', border_attr)
+            win.addstr(h - 1, 0, '╚' + '═' * (w - 2) + '╝', border_attr)
+            # Side borders
+            for y in range(1, h - 1):
+                win.addstr(y, 0, '║', border_attr)
+                win.addstr(y, w - 1, '║', border_attr)
+        except curses.error:
+            pass
         if title:
             self._put(win, 0, 2, f" {title} ",
                       curses.color_pair(C_TITLE) | curses.A_BOLD)
