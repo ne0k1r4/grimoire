@@ -16,7 +16,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="GRIMOIRE Unified Operator Suite local dashboard. Track engagement logs, active modules, and target databases.">
-  <title>GRIMOIRE v2.0 — Operator Dashboard</title>
+  <title>GRIMOIRE v{{ version }} — Operator Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -497,7 +497,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <header>
     <div class="brand">
       <h1 class="logo">G R I M O I R E<span>.</span></h1>
-      <div class="meta">v2.1.0 &nbsp;·&nbsp; Unified Operator Suite</div>
+      <div class="meta">v{{ version }} &nbsp;·&nbsp; Unified Operator Suite</div>
     </div>
     <nav>
       <a href="/" class="active" id="nav-dashboard">Dashboard</a>
@@ -632,7 +632,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </main>
 
   <footer>
-    GRIMOIRE v2.1.0 &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong> &nbsp;·&nbsp; The Death Note of the digital world
+    GRIMOIRE v{{ version }} &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong> &nbsp;·&nbsp; The Death Note of the digital world
   </footer>
 
   <script>
@@ -686,7 +686,7 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="GRIMOIRE targets journal - active intelligence catalog.">
-  <title>GRIMOIRE — Codex targets</title>
+  <title>GRIMOIRE v{{ version }} — Codex targets</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -764,6 +764,78 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       font-size: 12px;
       margin-bottom: 20px;
       letter-spacing: 0.5px;
+    }
+
+    /* Search Bar & Stats Summary Ribbon */
+    .search-ribbon {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+      min-width: 280px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px 10px 38px;
+      color: var(--primary);
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--border-hover);
+      background: rgba(255, 255, 255, 0.04);
+      outline: none;
+      box-shadow: 0 0 10px rgba(230, 57, 70, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .stats-summary {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-badge {
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-badge span {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--primary);
+      margin-left: 2px;
     }
 
     .panel {
@@ -908,7 +980,7 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
   </div>
 
   <footer>
-    GRIMOIRE v2.1.0 &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong>
+    GRIMOIRE v{{ version }} &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong>
   </footer>
 </body>
 </html>"""
@@ -929,6 +1001,7 @@ def launch(host: str = "127.0.0.1", port: int = 1337):
     from ..core.sysinfo import get_all as get_sys
     from ..core.oplog   import get_recent
     from ..codex        import _load as load_codex
+    from ..core.banner  import VERSION
 
     app = Flask(__name__)
     app.secret_key = os.urandom(16)
@@ -952,11 +1025,11 @@ def launch(host: str = "127.0.0.1", port: int = 1337):
             net_up=s["net_up"], net_down=s["net_down"],
             uptime=s["uptime"],
             targets=load_codex(), modules=MODULES_META,
-            oplog=get_recent(20), version="2.0.0")
+            oplog=get_recent(20), version=VERSION)
 
     @app.route("/codex")
     def codex_page():
-        return render_template_string(CODEX_TEMPLATE, targets=load_codex())
+        return render_template_string(CODEX_TEMPLATE, targets=load_codex(), version=VERSION)
 
     @app.route("/api/sysinfo")
     def api_sysinfo(): return jsonify(get_sys())
