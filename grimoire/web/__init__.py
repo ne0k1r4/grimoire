@@ -1087,6 +1087,16 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
   <h1 id="heading-codex">C O D E X<span>.</span></h1>
   <div class="sub">Grimoire Active Intel Ledger &nbsp;·&nbsp; Target Database</div>
 
+  <div class="search-ribbon">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search targets by name or tags..." onkeyup="filterTargets()">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="stats-summary" id="stats-summary">
+      <!-- Status counts calculated dynamically -->
+    </div>
+  </div>
+
   <div class="panel">
     <table>
       <thead>
