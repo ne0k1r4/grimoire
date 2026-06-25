@@ -1004,6 +1004,70 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       gap: 20px;
     }
 
+    .drawer-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .drawer-label {
+      color: var(--dim);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .drawer-value {
+      font-size: 13px;
+      color: var(--primary);
+      line-height: 1.5;
+    }
+
+    .drawer-value.mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      word-break: break-all;
+    }
+
+    .findings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .finding-item {
+      background: rgba(255, 255, 255, 0.015);
+      border-left: 3px solid var(--red);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .finding-ts {
+      color: var(--dim);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      margin-bottom: 4px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .history-ts {
+      color: var(--dim);
+      font-family: var(--font-mono);
+    }
+
     footer {
       padding-top: 20px;
       color: var(--dim);
