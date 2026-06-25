@@ -1112,7 +1112,7 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       </thead>
       <tbody>
         {% for t in targets %}
-        <tr>
+        <tr onclick="openDrawer({{ loop.index0 }})">
           <td style="color: var(--dim);">{{ loop.index }}</td>
           <td style="font-family: var(--font-mono); font-size: 11px; color: var(--secondary);">{{ t.id }}</td>
           <td style="font-weight: 600;">{{ t.name }}</td>
@@ -1134,6 +1134,17 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
         {% endfor %}
       </tbody>
     </table>
+  </div>
+
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="drawer-title" id="drawer-title">Target Details</div>
+      <button class="close-btn" onclick="closeDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body" id="drawer-body">
+      <!-- Dynamic details rendered via JavaScript -->
+    </div>
   </div>
 
   <footer>
