@@ -926,6 +926,84 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       display: inline-block;
     }
 
+    /* Sliding Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -450px;
+      width: 450px;
+      height: 100vh;
+      background: rgba(8, 8, 14, 0.98);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    } 
+
+    .drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .drawer-title {
+      font-family: var(--font-serif);
+      color: var(--red);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 2px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--secondary);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+      color: var(--red);
+    }
+
+    .drawer-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     footer {
       padding-top: 20px;
       color: var(--dim);
