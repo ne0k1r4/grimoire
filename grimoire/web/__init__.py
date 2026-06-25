@@ -1150,6 +1150,48 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
   <footer>
     GRIMOIRE v{{ version }} &nbsp;·&nbsp; Engineered by <strong>Light (Neok1ra)</strong>
   </footer>
+
+  <script>
+    const targets = {{ targets|tojson|safe }};
+
+    function initStats() {
+      const stats = { ACTIVE: 0, OWNED: 0, WATCHING: 0, CLOSED: 0, PENDING: 0 };
+      targets.forEach(t => {
+        if (stats[t.status] !== undefined) {
+          stats[t.status]++;
+        }
+      });
+      
+      const container = document.getElementById('stats-summary');
+      container.innerHTML = `
+        <div class="stat-badge"><span style="color: var(--red)">●</span> ACTIVE <span>${stats.ACTIVE}</span></div>
+        <div class="stat-badge"><span style="color: var(--green)">●</span> OWNED <span>${stats.OWNED}</span></div>
+        <div class="stat-badge"><span style="color: var(--yellow)">●</span> WATCHING <span>${stats.WATCHING}</span></div>
+        <div class="stat-badge"><span style="color: var(--cyan)">●</span> PENDING <span>${stats.PENDING}</span></div>
+      `;
+    }
+
+    function filterTargets() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      const rows = document.querySelectorAll('tbody tr');
+      
+      rows.forEach((row, idx) => {
+        const target = targets[idx];
+        if (!target) return;
+        const name = target.name.toLowerCase();
+        const tags = (target.tags || []).join(' ').toLowerCase();
+        const status = target.status.toLowerCase();
+        
+        if (name.includes(query) || tags.includes(query) || status.includes(query)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    initStats();
+  </script>
 </body>
 </html>"""
 
