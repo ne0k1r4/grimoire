@@ -959,7 +959,7 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
       display: flex;
       flex-direction: column;
       transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    } 
+    }
 
     .drawer.open {
       right: 0;
@@ -1188,6 +1188,98 @@ CODEX_TEMPLATE = r"""<!DOCTYPE html>
           row.style.display = 'none';
         }
       });
+    }
+
+    function openDrawer(index) {
+      const target = targets[index];
+      if (!target) return;
+      
+      document.getElementById('drawer-title').textContent = target.name;
+      
+      let findingsHTML = '';
+      if (target.findings && target.findings.length > 0) {
+        target.findings.forEach(f => {
+          findingsHTML += `
+            <div class="finding-item">
+              <div class="finding-ts">[${f.ts}]</div>
+              <div>${f.text}</div>
+            </div>
+          `;
+        });
+      } else {
+        findingsHTML = '<div style="color: var(--dim); font-size: 12px;">No findings recorded.</div>';
+      }
+      
+      let historyHTML = '';
+      if (target.history && target.history.length > 0) {
+        target.history.forEach(h => {
+          historyHTML += `
+            <div class="history-item">
+              <span>Status: <strong>${h.status}</strong></span>
+              <span class="history-ts">[${h.ts}]</span>
+            </div>
+          `;
+        });
+      } else {
+        historyHTML = '<div style="color: var(--dim); font-size: 12px;">No status change history.</div>';
+      }
+
+      let tagsHTML = '';
+      if (target.tags && target.tags.length > 0) {
+        target.tags.forEach(tag => {
+          tagsHTML += `<span class="tag">${tag}</span>`;
+        });
+      } else {
+        tagsHTML = '<span style="color: var(--dim);">-</span>';
+      }
+
+      const body = document.getElementById('drawer-body');
+      body.innerHTML = `
+        <div class="drawer-section">
+          <div class="drawer-label">ID</div>
+          <div class="drawer-value mono">${target.id}</div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">Risk Rating</div>
+          <div class="drawer-value">
+            <span class="risk-badge risk-${target.risk || 'LOW'}">${target.risk || 'LOW'}</span>
+          </div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">Status</div>
+          <div class="drawer-value">
+            <span class="status-text st-${target.status}">${target.status}</span>
+          </div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">Tags</div>
+          <div class="drawer-value">${tagsHTML}</div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">Notes</div>
+          <div class="drawer-value" style="white-space: pre-wrap; font-size:12.5px;">${target.notes || '<span style="color: var(--dim)">No notes.</span>'}</div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">Findings</div>
+          <div class="findings-list">${findingsHTML}</div>
+        </div>
+        <div class="drawer-section">
+          <div class="drawer-label">History Log</div>
+          <div class="history-list">${historyHTML}</div>
+        </div>
+        <div class="drawer-section" style="margin-top: 10px; font-size: 11px; color: var(--dim); border-top:1px solid rgba(255,255,255,0.03); padding-top:12px;">
+          <div>Added: ${target.added}</div>
+          <div>Updated: ${target.updated || target.added}</div>
+        </div>
+      `;
+      
+      document.getElementById('drawer-overlay').classList.add('open');
+      document.getElementById('drawer').classList.add('open');
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawer-overlay').classList.remove('open');
+      document.getElementById('drawer').classList.remove('open');
     }
 
     initStats();

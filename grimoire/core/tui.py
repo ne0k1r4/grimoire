@@ -133,6 +133,7 @@ class GrimoireTUI:
             self._put(win, 0, 2, f" {title} ",
                       curses.color_pair(C_TITLE) | curses.A_BOLD)
 
+
     # ── panels ────────────────────────────────
 
     def _draw_statusbar(self, win):
