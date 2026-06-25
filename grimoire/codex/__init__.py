@@ -11,7 +11,7 @@ CODEX_FILE = DATA_DIR / "codex.json"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  C O D E X  v2.0  —  The Death Note         ║
+  ║  C O D E X  v2.1  —  The Death Note         ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}Write a name. Assign risk. Begin the operation.{C.RESET}

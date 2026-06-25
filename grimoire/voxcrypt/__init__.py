@@ -8,7 +8,7 @@ from ..utils import C, section
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  V O X C R Y P T  v2.0  —  Stego Engine     ║
+  ║  V O X C R Y P T  v2.1  —  Stego Engine     ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}LSB Image/Audio · ZWC Text · AES-cipher · HMAC integrity{C.RESET}

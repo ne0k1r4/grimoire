@@ -10,7 +10,7 @@ PHANTOM_FILE = DATA_DIR / "phantom.json"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  P H A N T O M  v2.0  —  Pivot Tracker      ║
+  ║  P H A N T O M  v2.1  —  Pivot Tracker      ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}SSH Tunnels · SOCKS · Chisel · Ligolo · Chain Map{C.RESET}

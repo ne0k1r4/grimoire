@@ -6,7 +6,7 @@ DEFAULT_VAULT = Path.home() / "creds" / "vaults" / "neok1ra_vault.kdbx"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  V A U L T  v2.0  —  Credential Manager     ║
+  ║  V A U L T  v2.1  —  Credential Manager     ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}KeePassXC CLI · neok1ra_vault.kdbx · search by tag{C.RESET}
