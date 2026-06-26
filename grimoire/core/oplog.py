@@ -1,12 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/oplog.py
-#  Op Log — thread-safe, persistent, ring-buffered
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
+# oplog — thread-safe json ring buffer
+# keeps last 2000 entries in ~/.grimoire/oplog.json
 
 import os, json, threading
 from datetime import datetime
@@ -17,7 +10,8 @@ LOG_FILE = LOG_DIR / "oplog.json"
 
 _lock    = threading.Lock()
 _entries = []
-MAX_MEM  = 300
+# keep last 300 in memory, 2000 on disk — memory is cheap but not infinite
+MAX_MEM = 300
 
 
 def _ts(): return datetime.now().strftime("%H:%M:%S")
@@ -26,6 +20,7 @@ def _ts(): return datetime.now().strftime("%H:%M:%S")
 def _ensure(): LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
+# TODO: this rewrites the whole file every time which is dumb, should append instead
 def _flush(entry):
     _ensure()
     try:
@@ -53,6 +48,7 @@ def log(msg: str, module: str = "core", level: str = "INFO"):
     threading.Thread(target=_flush, args=(entry,), daemon=True).start()
 
 
+# shortcuts so i dont have to type level= every time
 def warn(msg, module="core"):  log(msg, module, "WARN")
 def error(msg, module="core"): log(msg, module, "ERROR")
 
@@ -61,6 +57,7 @@ def get_recent(n: int = 20) -> list:
     with _lock: return list(_entries[-n:])
 
 
+# loads last N entries from disk so the log survives restarts
 def init():
     global _entries
     _ensure()
@@ -69,4 +66,4 @@ def init():
             with open(LOG_FILE) as f: disk = json.load(f)
             with _lock: _entries = disk[-MAX_MEM:]
         except Exception: pass
-    log(f"GRIMOIRE v2.0 initialized — Light (Neok1ra)", "core")
+    log(f"GRIMOIRE v2.1 initialized — Light (Neok1ra)", "core")

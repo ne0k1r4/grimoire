@@ -1,3 +1,4 @@
+# sovereign — reverse shell listener and C2 manager
 import socket, threading, os, sys, select, json, hashlib, time
 from datetime import datetime
 from pathlib import Path
@@ -7,7 +8,7 @@ DATA_DIR = Path.home() / ".grimoire" / "sessions"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  S O V E R E I G N  v2.0  —  C2 Manager     ║
+  ║  S O V E R E I G N  v2.1  —  C2 Manager     ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}Reverse Shell Listener · Sessions · History · Logs{C.RESET}
