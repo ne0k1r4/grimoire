@@ -1,3 +1,4 @@
+# sovereign — reverse shell listener and C2 manager
 import socket, threading, os, sys, select, json, hashlib, time
 from datetime import datetime
 from pathlib import Path

@@ -11,17 +11,18 @@ from .banner  import GRIMOIRE_BANNER_SMALL, KIRA_QUOTES, KIRA_MOTD, VERSION, AUT
 from .sysinfo import get_all as get_sys
 from .oplog   import log, get_recent, init as init_log
 
-# ── Colour pair IDs ───────────────────────────
-C_RED       = 1
-C_DIM       = 2
-C_NORMAL    = 3
+# these IDs are arbitrary, just dont reuse them or curses gets weird
+C_RED = 1
+C_DIM = 2
+C_NORMAL = 3
 C_HIGHLIGHT = 4
-C_BORDER    = 5
-C_TITLE     = 6
-C_WARN      = 7
-C_SUCCESS   = 8
-C_CREAM     = 9
+C_BORDER = 5
+C_TITLE = 6
+C_WARN = 7
+C_SUCCESS = 8
+C_CREAM = 9
 
+# TODO: make this dynamic so modules can register themselves above it
 MODULES = [
     ("codex",     "CODEX",     "Target Journal       ", "risk scoring · tags · reports"),
     ("wraith",    "WRAITH",    "Passive Recon         ", "HTTP · tech · ports · reports"),
@@ -106,6 +107,7 @@ class GrimoireTUI:
 
     # ── safe draw ─────────────────────────────
 
+    # wrapper bc curses.addstr throws if you go out of bounds and i got tired of try/catching everywhere
     def _put(self, win, y, x, text, attr=0):
         h, w = win.getmaxyx()
         if y < 0 or y >= h or x < 0: return
@@ -289,14 +291,15 @@ class GrimoireTUI:
 
     # ── layout ────────────────────────────────
 
+    # TODO: make layout responsive, right now anything under 80x24 just breaks
     def _build_layout(self):
         H, W = self.scr.getmaxyx()
-        STAT_H   = 1
-        HEAD_H   = 7
-        SYS_H    = 4
-        LOG_H    = max(5, H // 5)
-        BODY_H   = H - STAT_H - HEAD_H - SYS_H - LOG_H
-        MOD_W    = 18
+        STAT_H = 1
+        HEAD_H = 7
+        SYS_H = 4
+        LOG_H = max(5, H // 5)
+        BODY_H = H - STAT_H - HEAD_H - SYS_H - LOG_H
+        MOD_W = 18
         OUT_W    = W - MOD_W
         y0 = 0
         wins = {}
@@ -310,6 +313,7 @@ class GrimoireTUI:
 
     # ── background ────────────────────────────
 
+    # runs in a daemon thread, updates every 2s — daemon=True so it dies with main
     def _bg_refresh(self):
         while self._running:
             with self._lock:
@@ -333,17 +337,18 @@ class GrimoireTUI:
             with self._lock: self._sys = get_sys()
             log("Stats refreshed", "core")
 
+    # TODO: replace this with importlib so adding modules doesnt mean editing this file
     def _launch(self, mod: str):
         log(f"Launching: {mod.upper()}", mod)
         try:
-            if mod == "codex":       from ..codex     import launch
-            elif mod == "wraith":    from ..wraith    import launch
-            elif mod == "voxcrypt":  from ..voxcrypt  import launch
-            elif mod == "forge":     from ..forge     import launch
-            elif mod == "vault":     from ..vault     import launch
-            elif mod == "phantom":   from ..phantom   import launch
+            if mod == "codex": from ..codex import launch
+            elif mod == "wraith": from ..wraith import launch
+            elif mod == "voxcrypt": from ..voxcrypt import launch
+            elif mod == "forge": from ..forge import launch
+            elif mod == "vault": from ..vault import launch
+            elif mod == "phantom": from ..phantom import launch
             elif mod == "sovereign": from ..sovereign import launch
-            elif mod == "web":       from ..web       import launch
+            elif mod == "web": from ..web import launch
             else: return
             curses.endwin()
             launch()

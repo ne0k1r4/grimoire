@@ -10,7 +10,8 @@ LOG_FILE = LOG_DIR / "oplog.json"
 
 _lock    = threading.Lock()
 _entries = []
-MAX_MEM  = 300
+# keep last 300 in memory, 2000 on disk — memory is cheap but not infinite
+MAX_MEM = 300
 
 
 def _ts(): return datetime.now().strftime("%H:%M:%S")
@@ -19,6 +20,7 @@ def _ts(): return datetime.now().strftime("%H:%M:%S")
 def _ensure(): LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
+# TODO: this rewrites the whole file every time which is dumb, should append instead
 def _flush(entry):
     _ensure()
     try:
@@ -46,6 +48,7 @@ def log(msg: str, module: str = "core", level: str = "INFO"):
     threading.Thread(target=_flush, args=(entry,), daemon=True).start()
 
 
+# shortcuts so i dont have to type level= every time
 def warn(msg, module="core"):  log(msg, module, "WARN")
 def error(msg, module="core"): log(msg, module, "ERROR")
 
@@ -54,6 +57,7 @@ def get_recent(n: int = 20) -> list:
     with _lock: return list(_entries[-n:])
 
 
+# loads last N entries from disk so the log survives restarts
 def init():
     global _entries
     _ensure()

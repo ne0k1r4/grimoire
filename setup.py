@@ -1,9 +1,11 @@
 # setup.py — pip install -e .
+# TODO: move to pyproject.toml at some point, setup.py feels old
 
 from setuptools import setup, find_packages
 
 setup(
     name="grimoire-suite",
+    # keep this in sync with banner.py, i keep forgetting
     version="2.1.0",
     description="GRIMOIRE — Unified Operator Suite by Light (Neok1ra)",
     long_description=open("README.md").read(),

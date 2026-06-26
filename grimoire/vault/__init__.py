@@ -1,3 +1,4 @@
+# vault — credentials storage manager, wrapper around keepassxc-cli
 import os, subprocess, getpass
 from pathlib import Path
 from ..utils import C, section

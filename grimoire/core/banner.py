@@ -29,7 +29,7 @@ RYUK = (
     "        \\|___|/\n"
     "         |   |\n"
 )
-
+# yes i know im a nerd
 KIRA_QUOTES = [
     "I will write your name in this book.",
     "I am justice. I am the God of this new world.",
@@ -43,6 +43,7 @@ KIRA_QUOTES = [
     "The real evil is the power to kill people.",
 ]
 
+# shown randomly on startup, adds some personality
 KIRA_MOTD = [
     "The notebook is open. Begin.",
     "Names have power. Choose wisely.",
@@ -54,9 +55,10 @@ KIRA_MOTD = [
     "Checkmate.",
 ]
 
-VERSION   = "2.1.0"
-AUTHOR    = "Light"
-ALIAS     = "Neok1ra"
-GITHUB    = "https://github.com/ne0k1r4"
-TAGLINE   = "The Death Note of the digital world"
-TOOL      = "GRIMOIRE"
+# TODO: pull this from setup.py instead of hardcoding
+VERSION = "2.1.0"
+AUTHOR = "Light"
+ALIAS = "Neok1ra"
+GITHUB = "https://github.com/ne0k1r4"
+TAGLINE = "The Death Note of the digital world"
+TOOL = "GRIMOIRE"
