@@ -538,9 +538,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <div class="stat-card" id="stat-host">HOST<span>{{ host }}</span></div>
         <div class="stat-card" id="stat-ip">IP<span>{{ ip }}</span></div>
         <div class="stat-card" id="stat-cpu">CPU<span id="cpu">{{ cpu }}</span></div>
-        <div class="stat-card" id="stat-ram">RAM<span>{{ ram }}</span></div>
-        <div class="stat-card" id="stat-net">NET<span>↑{{ net_up }} ↓{{ net_down }}</span></div>
-        <div class="stat-card" id="stat-uptime">UPTIME<span>{{ uptime }}</span></div>
+        <div class="stat-card" id="stat-ram">RAM<span id="ram">{{ ram }}</span></div>
+        <div class="stat-card" id="stat-disk">DISK<span id="disk">{{ disk }}</span></div>
+        <div class="stat-card" id="stat-net">NET<span id="net">↑{{ net_up }} ↓{{ net_down }}</span></div>
+        <div class="stat-card" id="stat-uptime">UPTIME<span id="uptime">{{ uptime }}</span></div>
         <div class="clock" id="clock">00:00:00</div>
       </section>
 
@@ -663,14 +664,20 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         })
         .catch(() => {});
 
-      // Refresh CPU
+      // Refresh System Stats
       fetch('/api/sysinfo')
         .then(r => r.json())
         .then(data => {
           const cpuEl = document.getElementById('cpu');
-          if (cpuEl && data.cpu) {
-            cpuEl.textContent = data.cpu;
-          }
+          if (cpuEl && data.cpu) cpuEl.textContent = data.cpu;
+          const ramEl = document.getElementById('ram');
+          if (ramEl && data.ram_used) ramEl.textContent = `${data.ram_used}/${data.ram_total}`;
+          const diskEl = document.getElementById('disk');
+          if (diskEl && data.disk_used) diskEl.textContent = `${data.disk_used}/${data.disk_total} (${data.disk_pct})`;
+          const netEl = document.getElementById('net');
+          if (netEl && data.net_up) netEl.textContent = `↑${data.net_up} ↓${data.net_down}`;
+          const uptimeEl = document.getElementById('uptime');
+          if (uptimeEl && data.uptime) uptimeEl.textContent = data.uptime;
         })
         .catch(() => {});
     }
@@ -1323,7 +1330,8 @@ def launch(host: str = "127.0.0.1", port: int = 1337):
         s = get_sys()
         return render_template_string(HTML_TEMPLATE,
             host=s["host"], ip=s["ip"], cpu=s["cpu"],
-            ram=f"{s['ram_used']}/{s['ram_total']}",
+            ram=f"{s.get('ram_used','?')}/{s.get('ram_total','?')}",
+            disk=f"{s.get('disk_used','?')}/{s.get('disk_total','?')} ({s.get('disk_pct','?')})",
             net_up=s["net_up"], net_down=s["net_down"],
             uptime=s["uptime"],
             targets=load_codex(), modules=MODULES_META,
