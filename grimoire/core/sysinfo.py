@@ -1,14 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — core/sysinfo.py
-#  System stats — stdlib only, zero deps
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-# ═══════════════════════════════════════════════════════════════
-
-import os, time, platform, socket, struct
+import os, time, platform, socket, struct, shutil
 
 _prev_net  = None
 _prev_time = None
@@ -83,9 +73,20 @@ def get_uptime() -> str:
     except: return "?"
 
 
+def get_disk() -> dict:
+    try:
+        total, used, free = shutil.disk_usage("/")
+        fmt = lambda b: f"{b/1024/1024/1024:.1f}G"
+        pct = 100 * used / total
+        return {"used": fmt(used), "total": fmt(total), "pct": f"{pct:.0f}%"}
+    except:
+        return {"used": "?", "total": "?", "pct": "?"}
+
+
 def get_all() -> dict:
     ram = get_ram()
     net = get_net_io()
+    disk = get_disk()
     try:    host = socket.gethostname()
     except: host = "unknown"
     try:
@@ -97,6 +98,9 @@ def get_all() -> dict:
         "ram_used":  ram["used"],
         "ram_total": ram["total"],
         "ram_pct":   ram["pct"],
+        "disk_used":  disk["used"],
+        "disk_total": disk["total"],
+        "disk_pct":   disk["pct"],
         "net_up":    net["up"],
         "net_down":  net["down"],
         "host":      host,
