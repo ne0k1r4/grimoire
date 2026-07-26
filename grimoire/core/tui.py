@@ -243,6 +243,7 @@ class GrimoireTUI:
             ("IP",     s.get("ip","?")),
             ("CPU",    s.get("cpu","?")),
             ("RAM",    f"{s.get('ram_used','?')}/{s.get('ram_total','?')} ({s.get('ram_pct','?')})"),
+            ("DISK",   f"{s.get('disk_used','?')}/{s.get('disk_total','?')} ({s.get('disk_pct','?')})"),
             ("↑↓NET",  f"{s.get('net_up','?')} / {s.get('net_down','?')}"),
             ("UPTIME", s.get("uptime","?")),
             ("TIME",   now),
