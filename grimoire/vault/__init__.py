@@ -38,7 +38,7 @@ def _interactive(vault=None):
         custom = input(f"  {C.DIM}Enter vault path (blank=abort):{C.RESET} ").strip()
         if not custom: return
         v = custom
-    print(f"  {C.DIM}Commands: list | show <entry> | pass <entry> | search <tag> | unlock | lock | exit{C.RESET}\n")
+    print(f"  {C.DIM}Commands: list | show <entry> | pass <entry> | search <tag> | generate [len] | unlock | lock | exit{C.RESET}\n")
     pw_cache = None
     while True:
         try:
@@ -87,8 +87,19 @@ def _interactive(vault=None):
                 for m in matches: print(f"  {C.CYAN}•{C.RESET} {m}")
             else:
                 print(f"  {C.DIM}[No matches for '{q}']{C.RESET}")
+        elif cmd in ("generate", "gen"):
+            length = 16
+            if len(parts) >= 2:
+                try: length = int(parts[1])
+                except ValueError: pass
+            if length < 4: length = 16
+            import secrets
+            import string
+            pool = string.ascii_letters + string.digits + "!@#$%^&*()_+-=[]{}|;:,.<>?"
+            pw = "".join(secrets.choice(pool) for _ in range(length))
+            print(f"  {C.GREEN}[PASSWORD GENERATED]{C.RESET} {pw}")
         else:
-            print(f"  {C.DIM}Commands: list | show <entry> | pass <entry> | search <tag> | unlock | lock | exit{C.RESET}")
+            print(f"  {C.DIM}Commands: list | show <entry> | pass <entry> | search <tag> | generate [len] | unlock | lock | exit{C.RESET}")
 
 def cli_main(args): _interactive()
 def launch(): _interactive()
