@@ -2,77 +2,73 @@
 
 *"I will write your name in this book."*
 
-GRIMOIRE is a modular, TUI-driven post-exploitation and recon suite with a Death Note aesthetic. Built for red team operators, it handles recon, payload generation, steganography, SSH pivot tracking, C2 multi-sessions, target logging, and basic blue team detection analysis.
+A modular, TUI-driven recon and post-exploitation suite with a Death Note
+aesthetic. Built for red team operators who like their tooling to feel like
+an anime opening sequence — everything ships with a gradient banner and a
+scanline print delay, because why not.
 
 ![Dashboard](dashboard.png)
 
----
+## What's inside
 
-## Key Modules
+| Module        | What it does                                                        |
+|---------------|---------------------------------------------------------------------|
+| **Core**      | Curses TUI dashboard, oplog ring buffer, sysinfo, report builder    |
+| **Wraith**    | Passive recon — DNS, WHOIS, SSL, HTTP fingerprint, WAF, takeover    |
+| **Forge**     | Interactive payload generator (15+ templates, encoders, obfuscation)|
+| **Voxcrypt**  | LSB steganography engine (image/audio) + ZWC text hiding            |
+| **Phantom**   | Network pivot chain tracker                                         |
+| **Sovereign** | C2 multi-session TCP shell handler                                  |
+| **Codex**     | Target journal with risk scoring                                    |
+| **Sentinel**  | Blue team — auth.log / syslog / EVTX / web log analysis + IOC scan  |
+| **Vault**     | KeePassXC credential wrapper + password generator                   |
+| **Web**       | Flask operational dashboard on `localhost:1337`                     |
+| **Omega**     | Post-exploitation modules — Ghost Hollow, Silicon Death, Data Harvest|
 
-| Module | Command | Description |
-|--------|---------|-------------|
-| 🖥️ **Core** | `grimoire` | Curses-based TUI dashboard and operational logging. |
-| 👁️ **Wraith** | `grimoire wraith` | Passive recon: DNS, SSL certs, WAF detection, subdomain takeovers, and Shodan queries. |
-| 💣 **Forge** | `grimoire forge` | Interactive generator for 15+ reverse shell templates, encoders, and obfuscators. |
-| 🕸️ **Voxcrypt** | `grimoire voxcrypt` | Steganography engine supporting LSB PNG/WAV encoding and zero-width text hiding. |
-| 🌐 **Phantom** | `grimoire phantom` | Network pivot hop tracker and SSH/Chisel/Ligolo command generator. |
-| ☠️ **Sovereign** | `grimoire sovereign` | C2 session manager and multi-session TCP shell handler. |
-| 📓 **Codex** | `grimoire codex` | Target journal with risk scoring and Markdown reporting. |
-| 🛡️ **Sentinel** | `grimoire sentinel` | Blue team utility parsing logs (`auth.log`, web logs, `.evtx`) with AbuseIPDB/VT scanners. |
-| 🔐 **Vault** | `grimoire vault` | A lightweight KeePassXC CLI credential search wrapper. |
-| 🌍 **Web** | `grimoire web` | Flask-based local operational web dashboard. |
-| ⚡ **Omega** | `grimoire omega` | Post-exploitation posturing modules (Ghost Hollow, Silicon Death, Data Harvester). |
-
----
-
-## Installation
-
-Requires Python 3.8+ (Linux recommended).
+## Setup
 
 ```bash
 git clone https://github.com/ne0k1r4/grimoire.git
 cd grimoire
 pip install -e .
+# optional Windows Event Log support:
+pip install -e .[evtx]
 ```
-*Note: Run `pip install -e .[evtx]` if you need Windows Event Log parsing capabilities.*
+
+Drop your API keys into `config.json` (see `config.example.json`):
+
+```json
+{
+  "shodan_api_key": "…",
+  "abuseipdb_api_key": "…",
+  "virustotal_api_key": "…"
+}
+```
+
+## Quick start
+
+- Launch the TUI: `grimoire`
+- Launch the web dashboard: `grimoire web`
+- Direct module call: `grimoire wraith example.com`
+
+Everything logs to `~/.grimoire/` — oplog, per-target journals, session
+captures. Reports come out as markdown.
+
+## Release notes
+
+### 2.1.0
+- **Wraith v2.1** — crt.sh certificate transparency, subdomain takeover
+  fingerprints (30 services), WAF/CDN detection, Shodan host lookup
+- **Sentinel** — log parsers for auth.log, syslog, web logs and EVTX,
+  offline IOC scanning + anomaly engine
+- **Arsenal Omega** — Ghost Hollow (process hollowing loader), Silicon
+  Death (keylogger), Data Harvester (system recon grabber)
+- `--help` on every module, config.example.json, banner + web restyle
+
+### 2.0.0
+- Initial release — core, TUI, web dashboard, wraith, forge, voxcrypt,
+  phantom, sovereign, codex, vault
 
 ---
 
-## Quick Start
-
-Launch the main terminal user interface:
-```bash
-grimoire
-```
-
-Launch the local web dashboard:
-```bash
-grimoire web
-```
-
-Or invoke modules directly via CLI:
-```bash
-grimoire wraith target.com
-grimoire sentinel --scan /var/log
-grimoire forge
-```
-Use `grimoire <module> --help` to check options and flags for specific tools.
-
----
-
-## Data Directories
-
-By default, GRIMOIRE writes session data, reports, and configs to `~/.grimoire/`:
-- `config.json` — API keys for external services (Shodan, AbuseIPDB, VirusTotal)
-- `codex.json` — Active target database
-- `oplog.json` — Operational timeline log
-- `phantom.json` — Pivot map paths
-- `reports/` — Exported markdown/HTML reports
-
----
-
-## Disclaimer
-Designed strictly for authorized penetration testing, CTF challenges, and educational research. The developer assumes no liability for misuse.
-
-*"From here, I will change the world." — Light Yagami*
+*Educational and authorized testing use only. Don't be dumb with this.*
