@@ -1,19 +1,5 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — codex/__init__.py
-#  Target Journal — The Death Note
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    Target tracking with risk scoring (CRITICAL/HIGH/MEDIUM/LOW)
-#    Tags system (web, network, ad, cloud, iot, etc.)
-#    Markdown + HTML report export
-#    Full history log per target
-#    Search by name, tag, status, risk
-# ═══════════════════════════════════════════════════════════════
+# codex — target journal + risk scoring
+# findings, tags, markdown report export
 
 import json, os, hashlib, readline
 from datetime import datetime
@@ -25,7 +11,7 @@ CODEX_FILE = DATA_DIR / "codex.json"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  C O D E X  v2.0  —  The Death Note         ║
+  ║  C O D E X  v2.1  —  The Death Note         ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}Write a name. Assign risk. Begin the operation.{C.RESET}
@@ -126,7 +112,7 @@ def _show_target(t):
 
 def export_report(targets) -> str:
     rb = ReportBuilder("GRIMOIRE Engagement Report — Codex")
-    # summary table
+    # sumary table
     rb.add_table("Target Summary",
         ["ID","Name","Risk","Status","Tags","Added"],
         [[t["id"], t["name"], t.get("risk","?"), t.get("status","?"),

@@ -7,7 +7,7 @@ from ..utils import C, section
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  F O R G E  v2.0  —  Payload Generator      ║
+  ║  F O R G E  v2.1  —  Payload Generator      ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}15 shells · 5 encoders · 3 obfuscators · save-to-file{C.RESET}

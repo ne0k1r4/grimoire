@@ -18,7 +18,7 @@ All notable changes to GRIMOIRE are documented here.
 - `wraith reverse_dns` crash on empty IP
 - Sentinel IP extraction in the anomaly engine
 
-## [2.0.0] — 2026-03-22
+## [2.0.0] — 2026-03-23
 
 ### Added
 - Initial release

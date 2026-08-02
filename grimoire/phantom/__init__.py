@@ -1,18 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
-#  GRIMOIRE v2.0 — phantom/__init__.py
-#  Network Pivot Tracker
-#
-#  Developer  : Light
-#  Alias      : Neok1ra
-#  GitHub     : https://github.com/ne0k1r4
-#  Tool       : GRIMOIRE — The Death Note of the digital world
-#
-#  Features:
-#    Pivot chain tracking
-#    SSH command generator (-L / -R / -D)
-#    ASCII chain map visualization
-#    Export pivot map to markdown
-# ═══════════════════════════════════════════════════════════════
+# phantom — network pivot tracker
 
 import json
 from datetime import datetime
@@ -24,7 +10,7 @@ PHANTOM_FILE = DATA_DIR / "phantom.json"
 
 BANNER = f"""
 {C.RED}{C.BOLD}  ╔══════════════════════════════════════════════╗
-  ║  P H A N T O M  v2.0  —  Pivot Tracker      ║
+  ║  P H A N T O M  v2.1  —  Pivot Tracker      ║
   ║  Developer: Light (Neok1ra)                  ║
   ╚══════════════════════════════════════════════╝{C.RESET}
   {C.DIM}SSH Tunnels · SOCKS · Chisel · Ligolo · Chain Map{C.RESET}
